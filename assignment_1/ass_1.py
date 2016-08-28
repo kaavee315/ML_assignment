@@ -32,11 +32,17 @@ import pandas as pd # now you can refer to pandas library as 'pd' from here on.
 import numpy as np
 
 df = pd.read_csv('train_data.csv', header=0)
-df.head(5)
+final_test  = pd.read_csv('test_data.csv', header=0)
 
+
+
+total_data = 26000
+total_cols = 61
+y_cols = 60
+train_data_last = ((total_data)/2)  
 #We first split available training data into validation and training data.
-train_data=df.ix[0:500,]
-validate_data=df.ix[500:,]
+train_data=df.ix[0:train_data_last,]
+validate_data=df.ix[train_data_last + 1:,]
 
 
 # In[42]:
@@ -46,27 +52,32 @@ from sklearn import linear_model
 
 #create a linear regression model
 lr=linear_model.LinearRegression()
-trainx=train_data.ix[:,2:59]
-trainy=train_data.ix[:,60]
+trainx=train_data.ix[:,2:total_cols-2]
+trainy=train_data.ix[:,y_cols]
 
 #fit the linear model.
 lr.fit(trainx,trainy)
 #access the coeffcients using 
 print("w values for the linear model",lr.coef_)
 
-testx=validate_data.ix[:,2:]
-testy=validate_data.ix[:,60]
+testx=validate_data.ix[:,2:total_cols-2]
+testy=validate_data.ix[:,y_cols]
 ypredicted=lr.predict(testx)
 predicted_values=pd.DataFrame(ypredicted)
 
-def fun1(x):
-    if x>0.5:
-        return 1
-    else:
-        return 0
+test_finalx=final_test.ix[:,2:total_cols-2]
+yfinalpredicted=lr.predict(test_finalx)
 
-predicted_labels = predicted_values[0].apply(fun1)
+for i in range(0,10):
+	print(validate_data.ix[train_data_last + 1+i,0], testy.ix[train_data_last + 1 + i], predicted_values.ix[i,0])
 
-print(predicted_labels.head())
-print(testy.head())
+score = 0
+print("score - ",score)
+for i in range(0,total_data - train_data_last - 1):
+	score += abs(predicted_values.ix[i,0] - testy.ix[train_data_last + 1 + i])
+
+print("score - ",score/(total_data - train_data_last))
+
+
+
 
