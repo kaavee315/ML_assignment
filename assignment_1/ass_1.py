@@ -32,7 +32,6 @@ import pandas as pd # now you can refer to pandas library as 'pd' from here on.
 import numpy as np
 
 df = pd.read_csv('train_data.csv', header=0)
-final_test  = pd.read_csv('test_data.csv', header=0)
 
 
 
@@ -65,8 +64,7 @@ testy=validate_data.ix[:,y_cols]
 ypredicted=lr.predict(testx)
 predicted_values=pd.DataFrame(ypredicted)
 
-test_finalx=final_test.ix[:,2:total_cols-2]
-yfinalpredicted=lr.predict(test_finalx)
+
 
 for i in range(0,10):
 	print(validate_data.ix[train_data_last + 1+i,0], testy.ix[train_data_last + 1 + i], predicted_values.ix[i,0])
@@ -78,15 +76,19 @@ for i in range(0,total_data - train_data_last - 1):
 
 print("score - ",score/(total_data - train_data_last))
 
-ans_row_size = yfinalpredicted.size
 
-ans=np.zeros((ans_row_size,2))
-for i in range(0, ans_row_size):
-	ans[i,0]=i
+# final_test  = pd.read_csv('test_data.csv', header=0)
+# test_finalx=final_test.ix[:,2:total_cols-2]
+# yfinalpredicted=lr.predict(test_finalx)
+# ans_row_size = yfinalpredicted.size
 
-ans[:,1] = yfinalpredicted
+# ans=np.zeros((ans_row_size,2))
+# for i in range(0, ans_row_size):
+# 	ans[i,0]=i
 
-np.savetxt("final_output.csv", ans.astype(int),fmt = '%d', delimiter = ','),
+# ans[:,1] = yfinalpredicted
+
+# np.savetxt("final_output.csv", ans.astype(int),fmt = '%d', delimiter = ',')
 
 
 
