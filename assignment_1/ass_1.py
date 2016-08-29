@@ -78,6 +78,17 @@ for i in range(0,total_data - train_data_last - 1):
 
 print("score - ",score/(total_data - train_data_last))
 
+ans_row_size = yfinalpredicted.size
+
+ans=np.zeros((ans_row_size,2))
+for i in range(0, ans_row_size):
+	ans[i,0]=i
+
+ans[:,1] = yfinalpredicted
+
+np.savetxt("final_output.csv", ans.astype(int),fmt = '%d', delimiter = ','),
+
+
 
 
 
