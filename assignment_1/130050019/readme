@@ -1,0 +1,3 @@
+It's a basic linear regression with model adjusted by cross-vaidation and tuning of the variables using the same.
+Command python model.py
+need to have train_data.csv and test_data.csv to run.
